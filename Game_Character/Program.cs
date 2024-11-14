@@ -11,7 +11,6 @@ namespace OOP_GCH
         static void Main(string[] args)
         {
 
-
             Console.ReadKey();
         }
     }
@@ -26,7 +25,7 @@ namespace OOP_GCH
             get => _Level;
             protected set
             {
-                if (value <= 0)
+                if (value < 0)
                     throw new ArgumentException("Error: Character Level cannot be negative");
                 _Level = value;
             }
@@ -38,7 +37,7 @@ namespace OOP_GCH
             get => _Health;
             protected set
             {
-                if (value <= 0)
+                if (value < 0)
                     throw new ArgumentException("Error: Character Health cannot be negative");
                 _Health = value;
             }
@@ -50,7 +49,7 @@ namespace OOP_GCH
             get => _Mana;
             protected set
             {
-                if (value <= 0)
+                if (value < 0)
                     throw new ArgumentException("Error: Character Mana cannot be negative");
                 _Mana = value;
             }
@@ -62,7 +61,7 @@ namespace OOP_GCH
             get => _Strength;
             protected set
             {
-                if (value <= 0)
+                if (value < 0)
                     throw new ArgumentException("Error: Character Strength cannot be negative");
                 _Strength = value;
             }
@@ -74,7 +73,7 @@ namespace OOP_GCH
             get => _Intelligence;
             protected set
             {
-                if (value <= 0)
+                if (value < 0)
                     throw new ArgumentException("Error: Character Intelligence cannot be negative");
                 _Intelligence = value;
             }
