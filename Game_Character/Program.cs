@@ -10,6 +10,15 @@ namespace OOP_GCH
     {
         static void Main(string[] args)
         {
+            Warrior warrior = new Warrior("Thor", 1, 100, 0, 15, 0);
+            Console.WriteLine(warrior.ToString());
+            
+            Console.WriteLine();
+            warrior.Attack();
+            warrior.Defend();
+
+            Console.WriteLine();
+            warrior.LevelUp();
 
             Console.ReadKey();
         }
@@ -92,5 +101,66 @@ namespace OOP_GCH
         public abstract void Attack();
         public abstract void Defend();
         public abstract void LevelUp();
+    }
+
+    class Warrior : GameCharacter
+    {
+        private int Armor = 10;
+
+        public Warrior(string name, int level, int health, int mana, int strength, int intelligence) 
+            : base(name, level, health, mana, strength, intelligence)
+        {
+            Mana = 0;
+            Intelligence = 0;
+        }
+
+        Random random = new Random();
+
+        public override void Attack()
+        {
+            int baseDamage = Strength * 2;
+            int criticalChance = random.Next(0,99);
+            bool criticalHit = criticalChance < 20 ? true : false;
+            int finalDamage = criticalHit ? baseDamage * 2 : baseDamage;
+            
+            if (criticalHit)
+                Console.WriteLine($"Attack: {Name} attacks and deals {finalDamage} damage. It was a critical hit!");   
+            else
+                Console.WriteLine($"Attack: {Name} attacks and deals {finalDamage} damage.");
+        }
+
+        public override void Defend()
+        {
+            int damageReduction = Armor / 2;
+            int blockChance = random.Next(0,99);
+            bool blockedAttack = blockChance < 15 ? true : false;
+
+            if (blockedAttack)
+                Console.WriteLine($"Defend: {Name} defended from an incoming attack. All damage was blocked successfully!");
+            else
+                Console.WriteLine($"Defend: {Name} defended from an incoming attack. Damage received is reduced by {damageReduction}.");
+        }
+
+        public override void LevelUp()
+        {
+            Level += 1;
+            Strength += 5;
+            Health += 20;
+            Armor += 2;
+
+            Console.WriteLine($"{Name} has reached Level {Level}.");  
+            Console.WriteLine($"Stats Increased: Strength +5, Health +20, Armor +2");
+        }
+
+        public override string ToString()
+        {
+            return $"[Character Info]\n" +
+            $"Name: {Name}\n" +
+            $"Class: Warrior\n" +
+            $"Level: {Level}\n" +
+            $"Health: {Health}\n" +
+            $"Strength: {Strength}\n" +
+            $"Armor: {Armor}";
+        }
     }
 }
