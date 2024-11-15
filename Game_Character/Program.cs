@@ -10,15 +10,15 @@ namespace OOP_GCH
     {
         static void Main(string[] args)
         {
-            Warrior warrior = new Warrior("Thor", 1, 100, 0, 15, 0);
-            Console.WriteLine(warrior.ToString());
+            Warrior warrior = new Warrior("Thor", 1, 100, 15);
+            Console.WriteLine(warrior.ToString() + "\n");
             
-            Console.WriteLine();
             warrior.Attack();
             warrior.Defend();
-
             Console.WriteLine();
             warrior.LevelUp();
+            
+            Console.WriteLine(warrior.ToString() + "\n");
 
             Console.ReadKey();
         }
@@ -107,20 +107,17 @@ namespace OOP_GCH
     {
         private int Armor = 10;
 
-        public Warrior(string name, int level, int health, int mana, int strength, int intelligence) 
-            : base(name, level, health, mana, strength, intelligence)
+        public Warrior(string name, int level, int health, int strength) 
+            : base(name, level, health, 0, strength, 0)
         {
-            Mana = 0;
-            Intelligence = 0;
+            
         }
-
-        Random random = new Random();
 
         public override void Attack()
         {
             int baseDamage = Strength * 2;
-            int criticalChance = random.Next(0,99);
-            bool criticalHit = criticalChance < 20 ? true : false;
+            int criticalRate = new Random().Next(0,99);
+            bool criticalHit = criticalRate < 20 ? true : false;
             int finalDamage = criticalHit ? baseDamage * 2 : baseDamage;
             
             if (criticalHit)
@@ -132,18 +129,18 @@ namespace OOP_GCH
         public override void Defend()
         {
             int damageReduction = Armor / 2;
-            int blockChance = random.Next(0,99);
-            bool blockedAttack = blockChance < 15 ? true : false;
+            int blockRate = new Random().Next(0,99);
+            bool blockedDamage = blockRate < 15 ? true : false;
 
-            if (blockedAttack)
-                Console.WriteLine($"Defend: {Name} defended from an incoming attack. All damage was blocked successfully!");
+            if (blockedDamage)
+                Console.WriteLine($"Defend: {Name} blocks the incoming attack! All damage is negated.");
             else
                 Console.WriteLine($"Defend: {Name} defended from an incoming attack. Damage received is reduced by {damageReduction}.");
         }
 
         public override void LevelUp()
         {
-            Level += 1;
+            Level++;
             Strength += 5;
             Health += 20;
             Armor += 2;
@@ -154,7 +151,7 @@ namespace OOP_GCH
 
         public override string ToString()
         {
-            return $"[Character Info]\n" +
+            return $"\n[Character Info]\n" +
             $"Name: {Name}\n" +
             $"Class: Warrior\n" +
             $"Level: {Level}\n" +
