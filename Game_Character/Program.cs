@@ -11,14 +11,14 @@ namespace OOP_GCH
         static void Main(string[] args)
         {
             Warrior warrior = new Warrior("Thor", 1, 100, 15);
-            Console.WriteLine(warrior.ToString() + "\n");
+            Console.WriteLine($"\n{warrior.ToString()}\n{new String('-', 50)}\n");   
             
             warrior.Attack();
             warrior.Defend();
             Console.WriteLine();
             warrior.LevelUp();
             
-            Console.WriteLine(warrior.ToString() + "\n");
+            Console.WriteLine($"\n{warrior.ToString()}\n");   
 
             Console.ReadKey();
         }
@@ -151,12 +151,14 @@ namespace OOP_GCH
 
         public override string ToString()
         {
-            return $"\n[Character Info]\n" +
+            return $"[Character Menu]\n" +
             $"Name: {Name}\n" +
             $"Class: Warrior\n" +
-            $"Level: {Level}\n" +
+            $"\nLevel: {Level}\n" +
             $"Health: {Health}\n" +
+            $"Mana: {Mana}\n" +
             $"Strength: {Strength}\n" +
+            $"Intelligence: {Intelligence}\n" +
             $"Armor: {Armor}";
         }
     }
