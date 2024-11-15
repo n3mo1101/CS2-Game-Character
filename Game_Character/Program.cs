@@ -101,6 +101,18 @@ namespace OOP_GCH
         public abstract void Attack();
         public abstract void Defend();
         public abstract void LevelUp();
+
+        public override string ToString()
+        {
+            return $"[Character Menu]\n" +
+            $"Name: {Name}\n" +
+            $"Class: {GetType().Name}\n" +
+            $"\nLevel: {Level}\n" +
+            $"Health: {Health}\n" +
+            $"Mana: {Mana}\n" +
+            $"Strength: {Strength}\n" +
+            $"Intelligence: {Intelligence}\n";
+        }
     }
 
     class Warrior : GameCharacter
@@ -151,15 +163,7 @@ namespace OOP_GCH
 
         public override string ToString()
         {
-            return $"[Character Menu]\n" +
-            $"Name: {Name}\n" +
-            $"Class: Warrior\n" +
-            $"\nLevel: {Level}\n" +
-            $"Health: {Health}\n" +
-            $"Mana: {Mana}\n" +
-            $"Strength: {Strength}\n" +
-            $"Intelligence: {Intelligence}\n" +
-            $"Armor: {Armor}";
+            return base.ToString() + $"Armor: {Armor}";
         }
     }
 }
