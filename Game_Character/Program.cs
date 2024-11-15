@@ -11,14 +11,27 @@ namespace OOP_GCH
         static void Main(string[] args)
         {
             Warrior warrior = new Warrior("Thor", 1, 100, 15);
-            Console.WriteLine($"\n{warrior.ToString()}\n{new String('-', 50)}\n");   
+            Mage mage = new Mage("Merlin", 1, 80, 50, 20);
+
+            Console.WriteLine("\t[ Character Menu ]");
+            Console.WriteLine($"\n{warrior.ToString()}\n{new String('-', 30)}");   
+            Console.WriteLine($"\n{mage.ToString()}\n{new String('-', 30)}");   
             
+            Console.WriteLine($"\nTurn Phase - [ {warrior.Name} ]\n");
             warrior.Attack();
             warrior.Defend();
-            Console.WriteLine();
             warrior.LevelUp();
-            
-            Console.WriteLine($"\n{warrior.ToString()}\n");   
+
+            Console.WriteLine($"\nTurn Phase - [ {mage.Name} ]\n");
+            mage.Attack();
+            mage.Defend();
+            mage.LevelUp();
+
+            Console.WriteLine($"\n{new String('-', 30)}");
+            Console.WriteLine($"\t[ Character Menu ]");
+
+            Console.WriteLine($"\n{warrior.ToString()}\n{new String('-', 30)}");   
+            Console.WriteLine($"\n{mage.ToString()}\n{new String('-', 30)}");   
 
             Console.ReadKey();
         }
@@ -27,8 +40,12 @@ namespace OOP_GCH
     abstract class GameCharacter
     {
         public string Name { get; protected set; }
-
         private int _Level { get; set; }
+        private int _Health { get; set; }
+        private int _Mana { get; set; }
+        private int _Strength { get; set; }
+        private int _Intelligence { get; set; }
+
         public int Level
         {
             get => _Level;
@@ -40,7 +57,6 @@ namespace OOP_GCH
             }
         }
         
-        private int _Health { get; set; }
         public int Health
         {
             get => _Health;
@@ -52,7 +68,6 @@ namespace OOP_GCH
             }
         }
 
-        private int _Mana { get; set; }
         public int Mana
         {
             get => _Mana;
@@ -64,7 +79,6 @@ namespace OOP_GCH
             }
         }
 
-        private int _Strength { get; set; }
         public int Strength
         {
             get => _Strength;
@@ -76,7 +90,6 @@ namespace OOP_GCH
             }
         }
 
-        private int _Intelligence { get; set; }
         public int Intelligence
         {
             get => _Intelligence;
@@ -101,18 +114,6 @@ namespace OOP_GCH
         public abstract void Attack();
         public abstract void Defend();
         public abstract void LevelUp();
-
-        public override string ToString()
-        {
-            return $"[Character Menu]\n" +
-            $"Name: {Name}\n" +
-            $"Class: {GetType().Name}\n" +
-            $"\nLevel: {Level}\n" +
-            $"Health: {Health}\n" +
-            $"Mana: {Mana}\n" +
-            $"Strength: {Strength}\n" +
-            $"Intelligence: {Intelligence}\n";
-        }
     }
 
     class Warrior : GameCharacter
@@ -120,9 +121,8 @@ namespace OOP_GCH
         private int Armor = 10;
 
         public Warrior(string name, int level, int health, int strength) 
-            : base(name, level, health, 0, strength, 0)
-        {
-            
+            : base(name, level, health, 0, strength, 0) { 
+
         }
 
         public override void Attack()
@@ -145,25 +145,90 @@ namespace OOP_GCH
             bool blockedDamage = blockRate < 15 ? true : false;
 
             if (blockedDamage)
-                Console.WriteLine($"Defend: {Name} blocks the incoming attack! All damage is negated.");
+                Console.WriteLine($"Defend: {Name} blocked the incoming attack! All damage is negated.");
             else
-                Console.WriteLine($"Defend: {Name} defended from an incoming attack. Damage received is reduced by {damageReduction}.");
+                Console.WriteLine($"Defend: {Name} guards for the incoming attack. Damage received is reduced by {damageReduction}.");
         }
 
         public override void LevelUp()
         {
-            Level++;
-            Strength += 5;
-            Health += 20;
-            Armor += 2;
+            const int STR = 5, HP = 20, DF = 2;
 
-            Console.WriteLine($"{Name} has reached Level {Level}.");  
-            Console.WriteLine($"Stats Increased: Strength +5, Health +20, Armor +2");
+            Level++;
+            Strength += STR;
+            Health += HP;
+            Armor += DF;
+
+            Console.WriteLine($"{Name} has reached Level {Level}!");  
+            Console.WriteLine($"Stats Increased: Strength +{STR}, Health +{HP}, Armor +{DF}");
         }
 
         public override string ToString()
         {
-            return base.ToString() + $"Armor: {Armor}";
+            return $"Name: {Name}\n" +
+            $"Class: Warrior\n" +
+            $"\nLevel: {Level}\n" +
+            $"Health: {Health}\n" +
+            $"Strength: {Strength}\n" +
+            $"Armor: {Armor}";
+        }
+    }
+
+    class Mage : GameCharacter
+    {
+        private int SpellPower = 10;
+        
+        public Mage(string name, int level, int health, int mana, int intelligence) 
+            : base(name, level, health, mana, 0, intelligence) {
+            
+        }
+
+        public override void Attack()
+        {
+            int magicDamage = (Intelligence * 3) + SpellPower;
+            int burnChance = new Random().Next(0,99);
+            bool burnEffect = burnChance < 25 ? true : false;
+
+            if (burnEffect)
+                Console.WriteLine($"Attack: {Name} casts a spell and deals {magicDamage} magic damage. Additional burn effect is applied.");
+            else
+                Console.WriteLine($"Attack: {Name} casts a spell and deals {magicDamage} magic damage.");
+        }
+
+        public override void Defend()
+        {
+            int damageReduction = Mana / 4;
+            int evadeChance = new Random().Next(0,99);
+            bool evadeAttack = evadeChance < 20 ? true : false;
+
+            if (evadeAttack)
+                Console.WriteLine($"Defend: {Name} evades the attack and negates all incoming damage.");
+            else
+                Console.WriteLine($"Defend: {Name} guards for the incoming attack. Damage received is reduced by {damageReduction}.");
+        }
+
+        public override void LevelUp()
+        {
+            const int INT = 5, MP = 15, SP = 3;
+
+            Level++;
+            Intelligence += INT;
+            Mana += MP;
+            SpellPower += SP;
+
+            Console.WriteLine($"{Name} has reached Level {Level}!");  
+            Console.WriteLine($"Stats Increased: Intelligence +{INT}, Mana +{MP}, Spell Power +{SP}");
+        }
+
+        public override string ToString()
+        {
+            return $"Name: {Name}\n" +
+            $"Class: Mage\n" +
+            $"\nLevel: {Level}\n" +
+            $"Health: {Health}\n" +
+            $"Mana: {Mana}\n" +
+            $"Intelligence: {Intelligence}\n" +
+            $"Spell Power: {SpellPower}";
         }
     }
 }
